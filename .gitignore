@@ -10,6 +10,7 @@ frontend/dist/
 frontend/build/
 
 # Logs e temporários
+.idea/**
 *.log
 .DS_Store
 .env
