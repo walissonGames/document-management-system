@@ -12,7 +12,12 @@ app.get('/health', (req, res) => {
 app.use('/', documentsRoutes);
 app.use((err, req, res, next) => {
   if (err && err instanceof multer.MulterError) {
-    res.status(400).json({ message: err.message });
+    const message =
+      err.code === 'LIMIT_FILE_SIZE'
+        ? 'O arquivo excede o tamanho maximo permitido.'
+        : err.message;
+
+    res.status(400).json({ message });
     return;
   }
 
