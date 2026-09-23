@@ -1,4 +1,3 @@
-const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const repository = require('../repositories/documents.repository');
@@ -9,15 +8,6 @@ function ensureStorageDirectory() {
   fs.mkdirSync(storageDirectory, { recursive: true });
 }
 
-function createStoredName(fileName, mimeType) {
-  const extension = path.extname(fileName) || '';
-  const id = crypto.randomUUID();
-  return {
-    id,
-    storedName: `${id}${extension}`,
-  };
-}
-
 function registerDocument(file, ownerId) {
   if (!file) {
     const error = new Error('Arquivo nao informado.');
@@ -26,16 +16,15 @@ function registerDocument(file, ownerId) {
   }
 
   ensureStorageDirectory();
-  const generated = createStoredName(file.originalname, file.mimetype);
   const document = {
-    id: generated.id,
+    id: file.filename,
     originalName: file.originalname,
-    storedName: generated.storedName,
+    storedName: file.filename,
     mimeType: file.mimetype,
     size: file.size,
     uploadedAt: new Date().toISOString(),
     ownerId: ownerId || 'default',
-    filePath: path.join(storageDirectory, generated.storedName),
+    filePath: path.join(storageDirectory, file.filename),
   };
 
   return repository.addDocument(document);
