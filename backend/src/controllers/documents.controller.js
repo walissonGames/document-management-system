@@ -11,7 +11,7 @@ function uploadDocument(req, res, next) {
 
 function listDocuments(req, res, next) {
   try {
-    res.json(documentsService.getDocuments());
+    res.json(documentsService.getDocuments(req.query.ownerId));
   } catch (error) {
     next(error);
   }
@@ -19,8 +19,8 @@ function listDocuments(req, res, next) {
 
 function downloadDocument(req, res, next) {
   try {
-    const document = documentsService.downloadDocument(req.params.id);
-    res.download(document.filePath, document.originalName);
+    const document = documentsService.downloadDocument(req.params.id, req.query.ownerId);
+    res.download(document.filePath, document.downloadName);
   } catch (error) {
     next(error);
   }

@@ -1,6 +1,18 @@
 import DownloadButton from './DownloadButton';
 
-export default function DocumentList({ documents }) {
+function formatUploadedAt(uploadedAt) {
+  return new Date(uploadedAt).toLocaleString('pt-BR');
+}
+
+function formatSize(size) {
+  if (size < 1024) {
+    return `${size} B`;
+  }
+
+  return `${(size / 1024).toFixed(1)} KB`;
+}
+
+export default function DocumentList({ documents, ownerId }) {
   if (!documents.length) {
     return <p>Nenhum documento enviado.</p>;
   }
@@ -23,9 +35,14 @@ export default function DocumentList({ documents }) {
         >
           <div>
             <strong style={{ display: 'block', color: '#fff3db' }}>{document.originalName}</strong>
-            <span style={{ color: '#c9b08b', fontSize: '0.92rem' }}>{document.ownerId}</span>
+            <span style={{ display: 'block', color: '#c9b08b', fontSize: '0.92rem' }}>
+              {document.ownerId}
+            </span>
+            <span style={{ color: '#c9b08b', fontSize: '0.85rem' }}>
+              {formatSize(document.size)} • {formatUploadedAt(document.uploadedAt)}
+            </span>
           </div>
-          <DownloadButton document={document} />
+          <DownloadButton document={document} ownerId={ownerId} />
         </li>
       ))}
     </ul>
