@@ -34,30 +34,58 @@ export default function UploadComponent({ onUploaded }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Arquivo
+    <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '1rem' }}>
+      <label style={{ display: 'grid', gap: '0.5rem' }}>
+        <span style={{ color: '#ffb547', fontWeight: 700 }}>Arquivo</span>
         <input
           type="file"
+          style={{
+            padding: '0.85rem',
+            borderRadius: '12px',
+            border: '1px solid rgba(255, 181, 71, 0.35)',
+            background: '#120b0b',
+            color: '#f5e8d0',
+          }}
           onChange={(event) => setFile(event.target.files[0] || null)}
         />
       </label>
 
-      <label>
-        Usuário
+      <label style={{ display: 'grid', gap: '0.5rem' }}>
+        <span style={{ color: '#ffb547', fontWeight: 700 }}>Usuário</span>
         <input
           type="text"
           value={ownerId}
           onChange={(event) => setOwnerId(event.target.value)}
           placeholder="user_1"
+          style={{
+            padding: '0.85rem',
+            borderRadius: '12px',
+            border: '1px solid rgba(255, 181, 71, 0.35)',
+            background: '#120b0b',
+            color: '#f5e8d0',
+          }}
         />
       </label>
 
-      <button type="submit" disabled={loading}>
+      <button
+        type="submit"
+        disabled={loading}
+        style={{
+          padding: '0.9rem 1.2rem',
+          border: 'none',
+          borderRadius: '999px',
+          background: loading ? '#6a4a25' : 'linear-gradient(135deg, #ff7a18, #ffb547)',
+          color: '#140b0b',
+          fontWeight: 800,
+          cursor: loading ? 'wait' : 'pointer',
+          textTransform: 'uppercase',
+          letterSpacing: '0.08em',
+        }}
+      >
         {loading ? 'Enviando...' : 'Enviar documento'}
       </button>
 
-      {error ? <p>{error}</p> : null}
+      {error ? <p style={{ color: '#ff8a7a', margin: 0 }}>{error}</p> : null}
     </form>
   );
 }
